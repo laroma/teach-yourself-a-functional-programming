@@ -35,18 +35,17 @@ object Functions {
     def longestNameInList(names:List[String]) = if(names.isEmpty) "nada".reverse else names.reduce((x, xs) => if(x.length() > xs.length()) x else xs).reverse
 
     // Join list `xs` of string with separator string `sep` into a string
-    def joinWithSep(xs: List[String], sep: String): String = xs.map(x => x + sep)
+    def joinWithSep(xs: List[String], sep: String): String = xs.reduce((x, xs) => x + sep + xs)
 
     // Take sums of lists and return those with sum greater than 20
     //
     // sumOfLists20(List(List(1,2,3), List(2,10,9))) == List(21)
-    def sumOfLists20(xs: List[List[Int]]): List[Int] = ???
-
-
+    def sumOfLists20(xs: List[List[Int]]): List[Int] = xs.map(x => {x.reduce((x, xs) => x + xs)}).filter(x => {x > 20})
+    
     // Return only cards of suit "heart"
     //
     // onlyHearts(List(("diamond", 4), ("heart", 9), ("clubs", 10))) ==  List(("heart", 9))
-    def onlyHearts(xs: List[(String, Int)]): List[(String, Int)] = ???
+    def onlyHearts(xs: List[(String, Int)]): List[(String, Int)] = xs.filter(x => {x._1 == "heart"})
 
     def main(args: Array[String]) {
         

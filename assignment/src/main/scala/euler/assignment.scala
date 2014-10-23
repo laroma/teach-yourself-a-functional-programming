@@ -12,7 +12,21 @@ object ProjectEuler {
    * By considering the terms in the Fibonacci sequence whose values do not
    * exceed four million, find the sum of the even-valued terms.
    */
-  def problem2(): Int = ???
+  def problem2(): Int = {
+    /*def moreFibosUntilTheMax(fib1: Int, fib2: Int, maxFib: Int): Int = {
+      val nextFib = fib1 + fib2
+      if(nextFib >= maxFib)
+        0
+      else if(fib2 % 2 == 0)
+        fib2 + moreFibosUntilTheMax(fib2, nextFib, maxFib)
+      else
+        moreFibosUntilTheMax(fib2, nextFib, maxFib)
+    }
+    moreFibosUntilTheMax(1, 2, 4000000)*/
+    
+    lazy val fs: Stream[Int] = 0 #:: 1 #:: fs.zip(fs.tail).map(p => p._1 + p._2)
+    fs.view.takeWhile(_ <= 4000000).filter(_ % 2 == 0).sum
+  }
 
   /*
    * Largest palindrome product
@@ -23,7 +37,31 @@ object ProjectEuler {
    * Find the largest palindrome made from the product of two 3-digit numbers.
    *
    */
-  def problem4(): Int = ???
+  def problem4(): Int = {
+    /*
+    def getPalindromicNumbah(a: Int, b: Int, max: Int, largest: Int): Int = {
+      if (a > max) {
+        largest
+      } else {
+        if (a <= max && b > max) {
+          getPalindromicNumbah(a + 1, 100, max, largest)
+        } else {
+  
+          val value = a * b
+  
+          if (value.toString == value.toString.reverse)
+            getPalindromicNumbah(a, b + 1, max, value)
+          else
+            getPalindromicNumbah(a, b + 1, max, largest)
+        }
+      }
+    }
+  
+    getPalindromicNumbah(100, 100, 999, 0)
+  */
+    
+    (100 to 999).view.flatMap(i => (i to 999).map(i *)).filter(n => n.toString == n.toString.reverse).max
+  }
 
   /*
    * Special Pythagorean triplet
@@ -36,7 +74,12 @@ object ProjectEuler {
    * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
    * Find the product abc.
    */
-  def problem9(): Int = ???
+  def problem9(): Int = {
+    val limit = (1 to 1000).find(n => n + math.sqrt(n) >= 1000).get
+    val rs = for(b <- 2 until limit; a <- 1 until b; c = 1000 - a - b
+             if a * a + b * b  == c * c) yield a * b * c
+    rs(0)
+  }
 
 
   /*
